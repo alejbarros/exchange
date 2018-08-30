@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+<style>
+body, html {
+    height: 100%;
+    font-family: "Inconsolata", sans-serif;
+}
+.bgimg {
+    background-position: center;
+    background-size: cover;
+    background-image: url("/images/background-black-dog-forex.jpg");
+    min-height: 75%;
+}
+.menu {
+    display: none;
+}
+</style>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link th:href="@{/css/styles.css}" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Links (sit on top) -->
+<div class="w3-top">
+  <div class="w3-row w3-padding w3-black">
+    <div class="w3-col s3">
+      <a href="#" class="w3-button w3-block w3-black">HOME</a>
+    </div>
+    <div class="w3-col s3">
+      <a href="#about" class="w3-button w3-block w3-black">ABOUT</a>
+    </div>
+    <div class="w3-col s5">
+      <a href="#menu" class="w3-button w3-block w3-black">EXCHANGE RATE</a>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Header with image -->
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
+    <span class="w3-text-white">Exchange</span>
+  </div>
+  <div class="w3-display-middle w3-center">
+    <span class="w3-text-white" style="font-size:90px">The<br>Exchange</span>
+  </div>
+  <div class="w3-display-bottomright w3-center w3-padding-large">
+    <span class="w3-text-white">Forex</span>
+  </div>
+</header>
+
+<!-- Add a background color and large text to the whole page -->
+<div class="w3-sand w3-grayscale w3-large">
+
+<!-- About Container -->
+<div class="w3-container" id="about">
+  <div class="w3-content" style="max-width:700px">
+    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">ABOUT THE EXCHANGE</span></h5>
+    <p>Exchange is a service to help to know the value of different world currencies. With Exchange you can to know thousand of values currencies in real time.
+This application was developed with technologies which Spring Boot, Jquery, HTML5, and CSS3.</p>
+    <p>In addition, this service is in continuum improvement to give the best service to our users.</p>
+    <div class="w3-panel w3-leftbar w3-light-grey">
+      <p><i>"We are what we repeatedly do. Excellence, therefore, is not an act but a habit."</i></p>
+      <p>Aristotle</p>
+    </div>
+   
+  </div>
+</div>
+
+<!-- Menu Container -->
+<div class="w3-container" id="menu">
+  <div class="w3-content" style="max-width:700px">
+ 
+    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">EXCHANGE RATE</span></h5>
+  
+    <div class="w3-row w3-center w3-card w3-padding">
+      <a href="javascript:void(0)" onclick="openMenu(event, 'rate');" id="myLink">
+        <div class="w3-col s6 tablink">Exchange Rate</div>
+      </a>
+      <a href="javascript:void(0)" onclick="openMenu(event, 'converter');">
+        <div class="w3-col s6 tablink">Currency Converter</div>
+      </a>
+      <a href="javascript:void(0)" onclick="openMenu(event, 'currency');">
+        <div class="w3-col s6 tablink">Currencies</div>
+      </a>
+      <a href="javascript:void(0)" onclick="openMenu(event, 'setup');">
+        <div class="w3-col s6 tablink">Configuration</div>
+      </a>
+    </div>
+
+    <div id="rate" class="w3-container menu w3-padding-48 w3-card">
+      <form method="post" id="search-form-countriesTop" onsubmit="return(validateRates());">
+      <h5>Live Exchange Rates</h5>
+      <p class="w3-text-grey">Know about the exchange rates in the world</p>    
+      <div class="center"> 
+      	<label for="countryRateFrom">From:</label>   
+      	<select class="form-control" id="countryRateFrom" name="countryRateFrom">
+        	<option value="">Select Country</option>
+        	<option th:each="country : ${countries}"
+                th:value="${country.currencyId}"
+                th:text="${country.name}">
+            </option>
+    	</select>  	
+    	<input type="submit"  value="convert" onClick=""/>
+      </div>
+      </br>
+        <table id="tableRates">
+  			<thead>
+    			<tr>
+      				<th>Country</th>
+      				<th>Currency</th>
+    			    <th>Rate</th>
+    			</tr>
+  			</thead>
+  			<tbody>
+    			<tr th:each="country : ${countriesRate}">
+      				<td th:text="${country.name}">&nbsp;</td>
+      				<td th:text="${country.currencySymbol}">&nbsp;</td>
+    			    <td th:text="${country.rate}">&nbsp;</td>
+    			    
+    			</tr>
+  			</tbody>
+		</table>
+    </form>
+    </div>
+    <div id="currency" class="w3-container menu w3-padding-48 w3-card">
+      <h5>Currencies of world</h5>
+      <p class="w3-text-grey">Know about the currencies of countries</p>  
+       <table>
+  			<thead>
+    			<tr>
+      				<th>Currencies</th>
+      				<th>Exchange Rate</th>
+    			</tr>
+  			</thead>
+  			<tbody>
+    			<tr th:each="country : ${countries}">
+      				<td th:text="${country.name}">&nbsp;</td>
+      				<td th:text="${country.currencySymbol}">&nbsp;</td>
+    			</tr>
+  			</tbody>
+		</table>
+    </div>
+    <div id="converter" class="w3-container menu w3-padding-48 w3-card">
+      <form action="#" th:action="@{/exchange}" th:object="${exchangeData}" method="post" id="search-form" onsubmit="return(validate());">
+      <h5>Foreing Exchange</h5>
+      <p class="w3-text-grey">Converter  of currencies</p>    
+       <div class="center">
+        <label for="countryFrom">From:</label>         
+        <select class="form-control" id="countryFrom" name="countryFrom" onChange="showCurrencyFrom(this);">
+        	<option value="">Select Country</option>
+        	<option th:each="country : ${countries}"
+                th:value="${country.currencyId} + ${'-'} +${country.currencyName} + ${'-'} +${country.currencySymbol}"
+                th:text="${country.name}">
+            </option>
+    	</select>
+        <input type="text"  id="currencyIdFrom" disabled size="25"/>
+        <input type="hidden"  id="currencyCodFrom"   />
+        </div>
+        <div class="center">      
+        <label for="countryTo">To:</label>     
+        <select class="form-control" id="countryTo" name="countryTo" onChange="showCurrencyTo(this);">
+        	<option value="">Select Country</option>
+        	<option th:each="country : ${countries}"
+                th:value="${country.currencyId} + ${'-'} +${country.currencyName} + ${'-'} +${country.currencySymbol}"
+                th:text="${country.name}">
+            </option>
+    	</select>
+        <input type="text"  id="currencyIdTo" disabled size="25"/>
+        <input type="hidden"  id="currencyCodTo"   />
+        </div>
+        </br>
+         <div class="center">
+  	   			<fieldset>
+            		<input type="text"  th:field="*{amount}"  name="amount"  />
+            		<input type="hidden"  th:field="*{convert}"  id="convertExchange"   />
+    		 		<input type="submit"  value="Convert" onClick="populateExchange()"/>
+    		 		<input type="text"  id="resultCurrency"   disabled size="35"/> 
+   				</fieldset>			
+        </div>     
+     </form> 
+    </div>    
+    <div id="setup" class="w3-container menu w3-padding-48 w3-card">
+       <h5>Configuration</h5>
+       <p class="w3-text-grey">Under construction</p>    
+       <img th:src="@{/images/Under_construction_svg.svg}" />	
+       <p class="w3-text-grey">Under construction</p>           
+    </div>        
+  </div>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-48 w3-large">
+  <p>Powered by <a>alejbarros</a></p>
+</footer>
+
+<script>
+    //Functions to works exchange 
+	// post search-form
+	$(document).ready(function () {
+    $("#search-form").submit(function (event) {
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+        fire_ajax_submit();
+       });
+
+    });
+    function fire_ajax_submit() {
+    var codFrom = document.getElementById('currencyCodFrom').value;
+    var codTo = document.getElementById('currencyCodTo').value;    
+    var urlRest = '/convertModel/' +codFrom+"_"+codTo;
+    var search = "";
+    $.ajax({
+         type: "POST",
+        contentType: "application/json",
+        url: urlRest ,
+        data: JSON.stringify(search),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            var json = JSON.stringify(data, null, 4) ;
+            var amount = document.getElementById('amount').value;
+            var result = 0;
+            if (amount != null && amount !=""){
+                    result = amount * json;
+            }else{
+            	alert("Input amount please");
+            }
+            $('#resultCurrency').val(result);
+            
+            console.log("SUCCESS : ", data);           
+        },
+        error: function (e) {            
+            console.log("ERROR : ", e);
+        }
+    });
+
+	}
+    
+    // post search-form-countriesTop 
+	$(document).ready(function () {
+    $("#search-form-countriesTop").submit(function (event) {
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+        fire_ajax_submitTop();
+       });
+
+    });
+    function fire_ajax_submitTop() {
+    var codRateFrom = document.getElementById('countryRateFrom').value;
+    var urlRestRate = '/home/' +codRateFrom;
+    var search = "";
+    $.ajax({
+        type: "POST",
+        url: urlRestRate ,
+        data: JSON.stringify(search),
+        dataType: 'html',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+        	var result = $(data).find('#tableRates').html();
+            $('#tableRates').html(result);        	
+            console.log("SUCCESS : ", result);           
+        },
+        error: function (e) {            
+            console.log("ERROR : ", e);
+        }
+    });
+
+	}   
+    // end post
+   	
+	function showCurrencyFrom(sel)
+    {   
+    	var str  = sel.options[sel.selectedIndex].value;
+    	var fields = str.split('-'); 
+    	var symbol = fields[2];
+    	
+    	if (symbol=="null"){ 
+      		symbol=" ";
+    	}
+    	document.getElementById('currencyIdFrom').value=fields[1] + ' ' + symbol;
+    	document.getElementById('currencyCodFrom').value=fields[0];
+    }
+    
+    function showCurrencyTo(sel)
+    {   
+    	var str  = sel.options[sel.selectedIndex].value;
+    	var fields = str.split('-'); 
+    	var symbol = fields[2];
+    	if (symbol=="null"){ 
+      		symbol=" ";
+    	}
+    	document.getElementById('currencyIdTo').value=fields[1] + ' ' + symbol;
+    	document.getElementById('currencyCodTo').value=fields[0];
+    }
+    
+    function populateExchange()
+    { 
+    	var codFrom = document.getElementById('currencyCodFrom').value;
+    	var codTo = document.getElementById('currencyCodTo').value;
+    	document.getElementById('convertExchange').value=codFrom+"_"+codTo;
+    }
+	//init
+	function validate(){
+		var amount = document.getElementById('amount').value;
+		var codFrom = document.getElementById('currencyCodFrom').value;
+   		var codTo = document.getElementById('currencyCodTo').value;       	
+		if( amount == "" ){
+	        alert( "Please provide amount!" );
+	        document.search-form.amount.focus() ;
+	        return false;
+    	}
+   		 if( codFrom == "" ){
+    	    alert( "Please provide currency From!" );
+      	  return false;
+    	}
+    	if( codTo == "" ){
+       	 alert( "Please provide currency To!" );
+     	   return false;
+    	}       
+    	return true;        
+	}
+	function validateRates(){
+		var countryRateFrom = document.getElementById('countryRateFrom').value;
+		if(countryRateFrom == ""){
+			alert("Please provide country!")
+			return false;
+		}
+		return true;
+	}
+	//end    
+
+// Tabbed Menu
+function openMenu(evt, menuName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("menu");
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < x.length; i++) {
+     tablinks[i].className = tablinks[i].className.replace(" w3-dark-grey", "");
+  }
+  document.getElementById(menuName).style.display = "block";
+  evt.currentTarget.firstElementChild.className += " w3-dark-grey";
+}
+document.getElementById("myLink").click();
+</script>
+</body>
+</html>
