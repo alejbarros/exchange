@@ -148,7 +148,7 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
 		</table>
     </div>
     <div id="converter" class="w3-container menu w3-padding-48 w3-card">
-      <form action="#" th:action="@{/exchange}"  method="post" id="search-form" onsubmit="return(validate());">
+      <form action="#" th:action="@{/exchange}" th:object="${exchangeData}" method="post" id="search-form" onsubmit="return(validate());">
       <h5>Foreing Exchange</h5>
       <p class="w3-text-grey">Converter  of currencies</p>    
        <div class="center">
@@ -178,8 +178,8 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
         </br>
          <div class="center">
   	   			<fieldset>
-            		<input type="text"   name="amount"  />
-            	
+            		<input type="text"  th:field="*{amount}"  name="amount"  />
+            		<input type="hidden"  th:field="*{convert}"  id="convertExchange"   />
     		 		<input type="submit"  value="Convert" onClick="populateExchange()"/>
     		 		<input type="text"  id="resultCurrency"   disabled size="35"/> 
    				</fieldset>			

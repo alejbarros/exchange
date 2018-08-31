@@ -38,7 +38,8 @@ public class DefaultViewController {
 	ConvertController convertService;
 	
 	@GetMapping("/")
-    public String home1() {
+    public String home1(Model model) {
+		newHome("",model);
         return "/home";
     }
 	
