@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("com.foreing.exchange.market.controller")
 public class SpringForeignExchangeMarketApplication {
 
+		
 	public static void main(String[] args) {
 		SpringApplication.run(SpringForeignExchangeMarketApplication.class, args);
 	}
