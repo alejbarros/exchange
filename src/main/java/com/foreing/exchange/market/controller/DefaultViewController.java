@@ -40,13 +40,13 @@ public class DefaultViewController {
 	@GetMapping("/")
     public String home(Model model) {
 		newHome("",model);
-        return "/home";
+        return "home";
     }
 	
 	@GetMapping("/home")
     public String newHome(Model model) {
 		newHome("",model);
-        return "/home";
+        return "home";
     }
 	
 	@RequestMapping("/home/{convertion}")
@@ -54,7 +54,7 @@ public class DefaultViewController {
 		Double ret = 0.0;	
     	getContriesData(model,currencyId);
     	model.addAttribute("result", ret);
-        return "/home";
+        return "home";
     }
    
 	private void getContriesData(Model model, String currencyId) {
