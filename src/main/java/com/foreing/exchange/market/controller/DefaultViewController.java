@@ -40,7 +40,7 @@ public class DefaultViewController {
 	@GetMapping("/")
     public String home(Model model) {
 		newHome("",model);
-        return "/home.html";
+        return "/home";
     }
 	
 	@GetMapping("/home")
