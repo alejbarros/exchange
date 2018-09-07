@@ -188,13 +188,45 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
     </div>    
     <div id="setup" class="w3-container menu w3-padding-48 w3-card">
        <h5>Configuration</h5>
-       <p class="w3-text-grey">Under construction</p>    
-       <img th:src="@{/images/Under_construction_svg.svg}" />	
-       <p class="w3-text-grey">Under construction</p>           
+       <p class="w3-text-grey">Select your currencies favorites.</p>
+       <!-- init -->
+       <form method="post" id="add-form-countriesTop" >
+       <div class="center"> 
+      	<label for="countryRateFrom">From:</label>   
+      	<select class="form-control" id="countryRateAddFrom" name="countryRateAddFrom">
+        	<option value="">Select Country</option>
+        	<option th:each="country : ${countries}"
+                th:value="${country.name}"
+                th:text="${country.name}">
+            </option>
+    	</select>  	    	
+    	<input type="submit"   value="add"   onclick="onClickAdd()"/>
+        <input type="submit" id="tst"  value="delete" onclick="onClickDelete()" /> 
+        <input type="hidden"  id="action"   />    
+      	<input type="hidden"  id="selectedDelete"   />
+      </div>
+      </br>
+        <table id="tableCountries">
+  			<thead>
+    			<tr>
+      				<th>Country</th>
+      				<th>Currency</th>    			  
+    			</tr>
+  			</thead>
+  			<tbody>
+    			<tr th:each="country : ${countriesRate}">
+      				<td th:text="${country.name}">&nbsp;</td>
+      				<td th:text="${country.currencySymbol}">&nbsp;</td>    			      			    
+    			</tr>
+  			</tbody>
+		</table>
+    </form>
+    </div>
+       <!-- end -->        
     </div>        
   </div>
 </div>
-</div>
+
 
 <!-- Footer -->
 <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
@@ -277,7 +309,78 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
 
 	}   
     // end post
+   	//init post add delete countries top 
+   	function onClickAdd(){
+   		$('#action').val("add");
+    }
+    function onClickDelete(){
+    	$('#action').val("delete");
+    }
    	
+   $(document).ready(function () {
+    $("#add-form-countriesTop").submit(function (event) {
+    	var action = document.getElementById('action').value;
+    	var codRateAddFrom = document.getElementById('countryRateAddFrom').value;
+    	var selectedDelete = document.getElementById('selectedDelete').value;
+    	//stop submit the form, we will post it manually.
+        event.preventDefault();
+        
+        if (action=="add" && codRateAddFrom !="") {
+        	fire_ajax_submitTopAdd();
+        } else if (action=="delete" && selectedDelete != "undefined") {        	
+        	fire_ajax_submitTopDelete(); 
+        } else {
+            //no button pressed
+             alert("Select country please!")
+        }
+        
+        });
+
+    });
+   function fire_ajax_submitTopAdd() {
+	    var codRateAddFrom = document.getElementById('countryRateAddFrom').value;
+	    var urlRestRate = '/add/' +codRateAddFrom;
+	    var search = "";
+	    $.ajax({
+	        type: "POST",
+	        url: urlRestRate ,
+	        data: JSON.stringify(search),
+	        dataType: 'html',
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
+	        	var result = $(data).find('#tableCountries').html();
+	            $('#tableCountries').html(result);        	
+	            console.log("SUCCESS : ", result);           
+	        },
+	        error: function (e) {            
+	            console.log("ERROR : ", e);
+	        }
+	    });
+   }
+   function fire_ajax_submitTopDelete() {
+	    var selectedDelete = document.getElementById('selectedDelete').value;
+	    var urlRestRate = '/delete/' +selectedDelete;
+	    var search = "";
+	    $.ajax({
+	        type: "POST",
+	        url: urlRestRate ,
+	        data: JSON.stringify(search),
+	        dataType: 'html',
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
+	        	var result = $(data).find('#tableCountries').html();
+	            $('#tableCountries').html(result);        	
+	            console.log("SUCCESS : ", result);           
+	        },
+	        error: function (e) {            
+	            console.log("ERROR : ", e);
+	        }
+	    });
+  }
+   
+   	//end post add delete countries top
 	function showCurrencyFrom(sel)
     {   
     	var str  = sel.options[sel.selectedIndex].value;
@@ -337,6 +440,27 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
 		}
 		return true;
 	}
+	
+	function highlight(e) {
+	    if (selected[0]) selected[0].className = '';
+	    e.target.parentNode.className = 'selected';
+	    
+	}
+
+		var table = document.getElementById('tableCountries'),
+	    selected = table.getElementsByClassName('selected');
+	    table.onclick = highlight;
+
+	function fnselect(){
+		var $row=$(this).parent().find('td');
+	    var clickeedID=$row.eq(0).text();	  
+	}
+	
+	$("#tst").click(function(){
+	    var value =$(".selected td:first").html();
+	    document.getElementById('selectedDelete').value = value;
+	    
+	});
 	//end    
 
 // Tabbed Menu

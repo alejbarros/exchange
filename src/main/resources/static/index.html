@@ -8,3 +8,50 @@
     
 </body>
 </html>
+
+
+	
+    function fire_ajax_submitTopAdd() {
+    var codRateFrom = document.getElementById('countryRateFrom').value;
+    var urlRestRate = '/home/' +codRateFrom;
+    var search = "";
+    $.ajax({
+        type: "POST",
+        url: urlRestRate ,
+        data: JSON.stringify(search),
+        dataType: 'html',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+        	var result = $(data).find('#tableRates').html();
+            $('#tableRates').html(result);        	
+            console.log("SUCCESS : ", result);           
+        },
+        error: function (e) {            
+            console.log("ERROR : ", e);
+        }
+    });
+    
+    function fire_ajax_submitTopDelete() {
+        var codRateFrom = document.getElementById('countryRateFrom').value;
+        var urlRestRate = '/home/' +codRateFrom;
+        var search = "";
+        $.ajax({
+            type: "POST",
+            url: urlRestRate ,
+            data: JSON.stringify(search),
+            dataType: 'html',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+            	var result = $(data).find('#tableRates').html();
+                $('#tableRates').html(result);        	
+                console.log("SUCCESS : ", result);           
+            },
+            error: function (e) {            
+                console.log("ERROR : ", e);
+            }
+        });
+
+    
+	} 

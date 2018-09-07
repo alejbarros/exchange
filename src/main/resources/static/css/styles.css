@@ -1,4 +1,9 @@
+td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
 
+.selected {
+    background-color: brown;
+    color: #FFF;
+}
 
 table, th, td {
     border: 1px solid black;
@@ -9,4 +14,5 @@ th, td {
     padding: 15px;
     text-align: left;
 }
+
 

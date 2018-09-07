@@ -1,24 +1,42 @@
 package com.foreing.exchange.market.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "COUNTRIES")
 public class CountryData  {
 	
+	@Column(name="alpha3")
 	private String alpha3;
 	
+	@Column(name="currencyId")
 	private String currencyId;
 	
+	@Column(name="currencyName")
 	private String currencyName;
 	
+	@Column(name="currencySymbol")
 	private String currencySymbol;
 	
+	@Id
+	@Column(name="id")
 	private String id;
-	
+
+	@Column(name="name")
 	private String name;
 	
+	@Column(name="rate")
 	private String rate;
 
+	@Column(name="top")
+	private String top;
+	
 	public String getAlpha3() {
 		return alpha3;
 	}
@@ -73,6 +91,14 @@ public class CountryData  {
 
 	public void setRate(String rate) {
 		this.rate = rate;
+	}
+
+	public String getTop() {
+		return top;
+	}
+
+	public void setTop(String top) {
+		this.top = top;
 	}
 
 	
