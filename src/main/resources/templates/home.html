@@ -148,7 +148,7 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
 		</table>
     </div>
     <div id="converter" class="w3-container menu w3-padding-48 w3-card">
-      <form action="#" th:action="@{/exchange}" th:object="${exchangeData}" method="post" id="search-form" onsubmit="return(validate());">
+      <form action="#" th:action="@{/exchange}" th:object="${exchangeData}" method="post" id="search-form" >
       <h5>Foreing Exchange</h5>
       <p class="w3-text-grey">Converter  of currencies</p>    
        <div class="center">
@@ -240,7 +240,9 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
     $("#search-form").submit(function (event) {
         //stop submit the form, we will post it manually.
         event.preventDefault();
-        fire_ajax_submit();
+        if (validate()){
+        	fire_ajax_submit();
+        }
        });
 
     });
@@ -339,7 +341,9 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
     });
    function fire_ajax_submitTopAdd() {
 	    var codRateAddFrom = document.getElementById('countryRateAddFrom').value;
-	    var urlRestRate = '/add/' +codRateAddFrom;
+	    var codRateFrom = document.getElementById('countryRateFrom').value;
+	    if(codRateFrom == "") codRateFrom = 'USD';
+	    var urlRestRate = '/add/' +codRateAddFrom + '/' + codRateFrom;
 	    var search = "";
 	    $.ajax({
 	        type: "POST",
@@ -350,7 +354,9 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
 	        timeout: 600000,
 	        success: function (data) {
 	        	var result = $(data).find('#tableCountries').html();
-	            $('#tableCountries').html(result);        	
+	            $('#tableCountries').html(result);   
+	            var resultRates = $(data).find('#tableRates').html();
+	            $('#tableRates').html(resultRates);     
 	            console.log("SUCCESS : ", result);           
 	        },
 	        error: function (e) {            
@@ -360,7 +366,9 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
    }
    function fire_ajax_submitTopDelete() {
 	    var selectedDelete = document.getElementById('selectedDelete').value;
-	    var urlRestRate = '/delete/' +selectedDelete;
+	    var codRateFrom = document.getElementById('countryRateFrom').value;
+	    if(codRateFrom == "") codRateFrom = 'USD';
+	    var urlRestRate = '/delete/' +selectedDelete +'/' + codRateFrom;
 	    var search = "";
 	    $.ajax({
 	        type: "POST",
@@ -371,7 +379,9 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
 	        timeout: 600000,
 	        success: function (data) {
 	        	var result = $(data).find('#tableCountries').html();
-	            $('#tableCountries').html(result);        	
+	            $('#tableCountries').html(result);
+	            var resultRates = $(data).find('#tableRates').html();
+	            $('#tableRates').html(resultRates); 
 	            console.log("SUCCESS : ", result);           
 	        },
 	        error: function (e) {            
@@ -462,7 +472,7 @@ This application was developed with technologies which Spring Boot, Jquery, HTML
 	    
 	});
 	//end    
-
+ 
 // Tabbed Menu
 function openMenu(evt, menuName) {
   var i, x, tablinks;
@@ -474,6 +484,7 @@ function openMenu(evt, menuName) {
   for (i = 0; i < x.length; i++) {
      tablinks[i].className = tablinks[i].className.replace(" w3-dark-grey", "");
   }
+  
   document.getElementById(menuName).style.display = "block";
   evt.currentTarget.firstElementChild.className += " w3-dark-grey";
 }

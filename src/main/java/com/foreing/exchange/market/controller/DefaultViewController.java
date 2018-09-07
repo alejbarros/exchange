@@ -58,24 +58,26 @@ public class DefaultViewController {
         return "home";
     }
 	
-	@RequestMapping("/add/{name}")
-	public String add(@PathVariable("name") String name, Model model) {
+	@RequestMapping("/add/{name}/{convertion}")
+	public String add(@PathVariable("name") String name,@PathVariable("convertion") String convertion, Model model) {
 		ExchangeData exchangeData = new ExchangeData();
 		List<CountryData> countriesData = countryDataService.findAll(); 
 		CountryData countryAdd = countryDataService.getCountryByName(name);  
 		countryDataService.addTopCountry(countryAdd);
 		List<CountryData> countriesRates =  countryDataService.findTop();
+		callServiceRates(convertion, countriesRates);
 		sortCollections(model, exchangeData, countriesData, countriesRates);
 		return "home";
 	}
 	
-	@RequestMapping("/delete/{name}")
-	public String delete(@PathVariable("name") String name, Model model) {
+	@RequestMapping("/delete/{name}/{convertion}")
+	public String delete(@PathVariable("name") String name,@PathVariable("convertion") String convertion, Model model) {
 		ExchangeData exchangeData = new ExchangeData();
 		List<CountryData> countriesData = countryDataService.findAll(); 
 		CountryData countryDelete = countryDataService.getCountryByName(name);  
 		countryDataService.deleteTopCountry(countryDelete);
 		List<CountryData> countriesRates =  countryDataService.findTop();
+		callServiceRates(convertion, countriesRates);
 		sortCollections(model, exchangeData, countriesData, countriesRates);
 		return "home";
 	}
@@ -114,6 +116,7 @@ public class DefaultViewController {
    	}
 
 	private void callServiceRates(String countryCurrencyId, List<CountryData> countriesTop) {
+		if (countryCurrencyId.equals("") || countryCurrencyId == "" || countryCurrencyId == null) countryCurrencyId = currencyIdDefault;
 		for(CountryData country :countriesTop) {
         	if(!country.getCurrencyId().equals(countryCurrencyId)) {
         		String convert = countryCurrencyId + "_" + country.getCurrencyId();
