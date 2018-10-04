@@ -37,7 +37,7 @@ The  application exchange now is available online [Here](https://foreing-exchang
 * Clone repository
 * From command line type : git clone https://github.com/alejbarros/exchange.git
 * Navigate to where you clone the repository.
-* Double-click index.html to open the game in your browser.
+
 
 * Tools used the project are Spring-Boot and PostgreSQL.
 * You need to install PostgreSQL to more information check [Here](https://www.postgresql.org/download/)
